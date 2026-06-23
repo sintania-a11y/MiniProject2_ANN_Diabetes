@@ -1,7 +1,7 @@
 streamlit
 pandas
-matplotlib
-seaborn
+plotly
 scikit-learn==1.6.1
 joblib
-pip freeze > requirements.txt
+tensorflow==2.20.0
+keras==3.13.2
