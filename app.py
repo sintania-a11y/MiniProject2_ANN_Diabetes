@@ -41,11 +41,50 @@ if menu == "Home":
     st.title("🩺 Diabetes Prediction App")
 
     st.write("""
-    Aplikasi ini menggunakan Artificial Neural Network (ANN)
-    untuk memprediksi kemungkinan diabetes berdasarkan kondisi kesehatan pasien.
+    Aplikasi ini menggunakan **Artificial Neural Network (ANN)** untuk
+    memprediksi kemungkinan seseorang memiliki diabetes berdasarkan indikator
+    kesehatan, gaya hidup, dan faktor demografis.
     """)
 
-    st.subheader("Model Information")
+    st.warning("""
+    **Disclaimer:** Aplikasi ini dibuat untuk tujuan pembelajaran dan screening awal.
+    Hasil prediksi tidak dapat menggantikan diagnosis dokter atau tenaga medis profesional.
+    """)
+
+    st.divider()
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric("Model", "ANN")
+
+    with col2:
+        st.metric("Accuracy", "75.07%")
+
+    with col3:
+        st.metric("Recall", "85%")
+
+    st.divider()
+
+    st.subheader("📌 About Diabetes")
+
+    st.write("""
+    Diabetes adalah kondisi kronis ketika tubuh tidak dapat mengatur kadar gula darah
+    dengan baik. Faktor seperti tekanan darah tinggi, kolesterol tinggi, BMI, usia,
+    aktivitas fisik, dan kondisi kesehatan umum dapat berkaitan dengan risiko diabetes.
+    """)
+
+    st.subheader("🎯 Application Purpose")
+
+    st.markdown("""
+    Aplikasi ini bertujuan untuk:
+    - Membantu memahami faktor-faktor yang berkaitan dengan diabetes.
+    - Menampilkan insight dari data kesehatan.
+    - Memprediksi kemungkinan diabetes menggunakan model ANN.
+    - Menyediakan tampilan interaktif berbasis Streamlit.
+    """)
+
+    st.subheader("🤖 Model Information")
 
     st.markdown("""
     - **Model**: Artificial Neural Network (ANN)
@@ -58,9 +97,29 @@ if menu == "Home":
     - **Threshold**: 0.50
     """)
 
+    st.subheader("📂 Dataset Source")
+
+    st.write("""
+    Dataset yang digunakan adalah **diabetes_binary_5050split_health_indicators_BRFSS2015.csv**,
+    yaitu dataset seimbang yang berasal dari data survei **CDC Behavioral Risk Factor
+    Surveillance System (BRFSS) 2015**. Dataset ini tersedia melalui Kaggle dalam
+    kumpulan **Diabetes Health Indicators Dataset**.
+    """)
+
+    st.markdown("""
+    **Dataset details:**
+    - Source: CDC BRFSS 2015
+    - Kaggle dataset: Diabetes Health Indicators Dataset
+    - File used: diabetes_binary_5050split_health_indicators_BRFSS2015.csv
+    - Features: 21 health indicator features
+    - Target: Diabetes_binary
+    - Class distribution: 50% Diabetes and 50% No Diabetes
+    """)
+
     st.info("""
-    Catatan: Aplikasi ini dibuat untuk kebutuhan pembelajaran mini project
-    dan bukan untuk diagnosis medis resmi.
+    Dataset ini digunakan karena memiliki indikator kesehatan yang relevan untuk
+    analisis dan prediksi diabetes, seperti HighBP, HighChol, BMI, GenHlth, Age,
+    Physical Activity, dan fitur lainnya.
     """)
 
 
@@ -131,47 +190,286 @@ elif menu == "Predict":
         col1, col2 = st.columns(2)
 
     with col1:
-        HighBP = st.selectbox("High Blood Pressure", [0, 1])
-        HighChol = st.selectbox("High Cholesterol", [0, 1])
-        CholCheck = st.selectbox("Cholesterol Check", [0, 1])
-        BMI = st.number_input("BMI", min_value=10.0, max_value=100.0, value=25.0)
+        HighBP = st.selectbox(
+            "History of High Blood Pressure",
+            [0, 1],
+            help="""
+            Menunjukkan apakah seseorang memiliki tekanan darah tinggi (hipertensi). \n
+            0 = Tidak memiliki tekanan darah tinggi \n
+            1 = Memiliki tekanan darah tinggi atau pernah didiagnosis hipertensi oleh dokter \n
+            Contoh: \n
+            ✓ Tekanan darah normal → 0 \n
+            ✓ Pernah didiagnosis hipertensi → 1 \n
+            ✓ Mengonsumsi obat hipertensi secara rutin → 1 \n
+
+            Catatan: \n
+            Tekanan darah tinggi merupakan salah satu faktor risiko utama diabetes dan penyakit kardiovaskular.""")
+        HighChol = st.selectbox(
+            "History of High Cholesterol",
+            [0, 1],
+            help="""
+            Menunjukkan apakah seseorang memiliki kadar kolesterol tinggi. \n
+            0 = Tidak memiliki kolesterol tinggi \n
+            1 = Memiliki kolesterol tinggi atau pernah didiagnosis kolesterol tinggi oleh dokter \n
+
+            Contoh: \n
+            ✓ Hasil pemeriksaan kolesterol normal → 0 \n
+            ✓ Pernah didiagnosis kolesterol tinggi → 1 \n
+            ✓ Mengonsumsi obat penurun kolesterol → 1 \n
+
+            Catatan: \n
+            Kolesterol tinggi dapat meningkatkan risiko penyakit jantung dan sering berkaitan dengan diabetes tipe 2.""")        
+        CholCheck = st.selectbox(
+            "Recent Cholesterol Screening", 
+            [0, 1],
+            help="""
+            Menunjukkan apakah Anda pernah melakukan
+            pemeriksaan kolesterol dalam 5 tahun terakhir. \n
+
+            0 = Tidak pernah melakukan pemeriksaan kolesterol
+            dalam 5 tahun terakhir \n
+
+            1 = Pernah melakukan pemeriksaan kolesterol
+            dalam 5 tahun terakhir \n
+
+            Contoh: \n
+            ✓ Cek kolesterol saat medical check-up → 1 \n
+            ✓ Cek kolesterol di klinik atau rumah sakit → 1 \n
+            ✗ Tidak pernah cek kolesterol dalam 5 tahun terakhir → 0 \n
+
+            Catatan: \n
+            Fitur ini tidak menunjukkan apakah kolesterol Anda tinggi atau rendah.
+            Hanya menunjukkan apakah pernah diperiksa atau tidak.""")
+        BMI = st.number_input(
+            "BMI",
+            min_value=10.0,
+            max_value=100.0,
+            value=25.0,
+            help="""
+            BMI (Body Mass Index) \n
+            Rumus: BMI = Berat Badan (kg) / (Tinggi Badan (m)²)\n
+            Kategori BMI:
+            < 18.5 = Underweight
+            18.5 - 24.9 = Normal
+            25.0 - 29.9 = Overweight
+            ≥ 30 = Obese \n
+            Contoh:
+            Tinggi 170 cm, Berat 72 kg → BMI ≈ 24.9
+            """)
+        if BMI < 18.5:
+            st.info("BMI Category: Underweight")
+
+        elif BMI < 25:
+            st.success("BMI Category: Normal Weight")
+
+        elif BMI < 30:
+            st.warning("BMI Category: Overweight")
+
+        else:
+            st.error("BMI Category: Obese")
 
     with col2:
-        Stroke = st.selectbox("Stroke", [0, 1])
-        HeartDiseaseorAttack = st.selectbox("Heart Disease or Attack", [0, 1])
-        GenHlth = st.slider("General Health", 1, 5, 3)
-        DiffWalk = st.selectbox("Difficulty Walking", [0, 1])
+        Stroke = st.selectbox(
+            "History of Stroke", 
+            [0, 1],
+            help="""
+            Menunjukkan apakah Anda pernah mengalami stroke. \n
+            0 = Tidak pernah mengalami stroke \n
+            1 = Pernah mengalami stroke \n
+
+            Contoh: \n 
+            ✓ Tidak pernah didiagnosis stroke → 0 \n
+            ✓ Pernah didiagnosis stroke oleh dokter → 1 \n
+
+            Catatan: \n
+            Yang dimaksud adalah riwayat stroke pada diri sendiri,
+            bukan anggota keluarga. """)
+        HeartDiseaseorAttack = st.selectbox(
+            "History of Heart Disease or Attack", 
+            [0, 1],
+            help="""
+            Menunjukkan apakah Anda pernah didiagnosis
+            penyakit jantung atau serangan jantung. \n
+
+            0 = Tidak pernah memiliki penyakit jantung
+            atau serangan jantung \n
+            1 = Pernah didiagnosis penyakit jantung
+            atau mengalami serangan jantung \n      
+
+            Contoh: \n
+            ✓ Tidak ada riwayat penyakit jantung → 0 \n        
+            ✓ Pernah mengalami serangan jantung → 1 \n
+            ✓ Pernah didiagnosis penyakit jantung koroner → 1 \n
+
+            Catatan:\n
+            Yang dimaksud adalah riwayat pada diri sendiri,
+            bukan riwayat keluarga.""")
+        GenHlth = st.slider(
+            "General Health",
+            1, 5, 3,
+            help="""
+            1 = Excellent
+            2 = Very Good
+            3 = Good
+            4 = Fair
+            5 = Poor
+
+            Pilih sesuai kondisi kesehatan secara umum.
+            """)
+        DiffWalk = st.selectbox(
+            "Difficulty Walking", 
+            [0, 1],
+            help="""
+            0 = Tidak mengalami kesulitan berjalan atau menaiki tangga \n
+            1 = Mengalami kesulitan berjalan atau menaiki tangga \n
+
+            Contoh: \n
+            ✓ Mudah berjalan normal → 0 \n
+            ✓ Cepat lelah atau kesulitan bergerak → 1""")
 
 
     with st.expander("🏃 Lifestyle", expanded=False):
      col1, col2 = st.columns(2)
 
     with col1:
-        Smoker = st.selectbox("Smoker", [0, 1])
-        PhysActivity = st.selectbox("Physical Activity", [0, 1])
-        Fruits = st.selectbox("Fruits Consumption", [0, 1])
+        Smoker = st.selectbox(
+            "History of Smoking", 
+            [0, 1],
+            help="""
+            Menunjukkan apakah seseorang memiliki riwayat merokok. \n
+            0 = Tidak memiliki riwayat merokok yang signifikan \n
+            1 = Memiliki riwayat merokok \n
+            
+            Definisi BRFSS: \n
+            • Pernah merokok setidaknya 100 batang rokok sepanjang hidup → 1 \n
+            • Belum pernah mencapai 100 batang rokok sepanjang hidup → 0 \n
+            
+            Contoh: \n
+            ✓ Tidak pernah merokok → 0 \n
+            ✓ Hanya mencoba beberapa batang rokok → 0 \n
+            ✓ Pernah menjadi perokok aktif dalam jangka waktu lama → 1 \n
+            ✓ Mantan perokok → 1 \n
 
+            Catatan: \n
+            Fitur ini mengukur riwayat merokok, bukan hanya apakah sedang merokok saat ini.""")
+
+        PhysActivity = st.selectbox(
+            "Physical Activity",
+            [0, 1],
+            help="""
+            0 = Tidak melakukan aktivitas fisik rutin
+            1 = Melakukan aktivitas fisik rutin
+            dalam 30 hari terakhir
+            """)
+        Fruits = st.selectbox(
+            "Fruits Consumption",
+            [0, 1],
+            help="""
+            0 = Jarang/tidak mengonsumsi buah
+            1 = Mengonsumsi buah secara rutin
+            """)
     with col2:
-        Veggies = st.selectbox("Vegetables Consumption", [0, 1])
-        HvyAlcoholConsump = st.selectbox("Heavy Alcohol Consumption", [0, 1])
+        Veggies = st.selectbox(
+            "Vegetables Consumption",
+            [0, 1],
+            help="""
+            0 = Jarang/tidak mengonsumsi sayuran
+            1 = Mengonsumsi sayuran secara rutin
+            """)    
+        HvyAlcoholConsump = st.selectbox(
+            "Heavy Alcohol Consumption (Excessive Drinking)", 
+            [0, 1],
+            help="""
+            Menunjukkan apakah seseorang mengonsumsi alkohol
+            dalam jumlah berlebihan. \n
+            0 = Tidak mengonsumsi alkohol berlebihan \n
+            1 = Mengonsumsi alkohol berlebihan \n
+            Definisi BRFSS: \n
+            • Pria: lebih dari 14 minuman beralkohol per minggu \n
+            • Wanita: lebih dari 7 minuman beralkohol per minggu \n
+
+            Contoh: \n
+            ✓ Sesekali minum alkohol → 0 \n
+            ✓ Tidak minum alkohol sama sekali → 0 \n 
+            ✓ Mengonsumsi alkohol dalam jumlah besar secara rutin → 1 \n
+
+            Catatan: \n
+            Fitur ini mengukur konsumsi alkohol berlebihan, \n
+            bukan sekadar pernah atau tidak pernah minum alkohol.""")
 
 
     with st.expander("🏥 Healthcare Access", expanded=False):
         col1, col2 = st.columns(2)
 
     with col1:
-        AnyHealthcare = st.selectbox("Any Healthcare", [0, 1])
+        AnyHealthcare = st.selectbox(
+            "Access to Healthcare",
+            [0, 1],
+            help="""
+            0 = Tidak memiliki akses atau perlindungan layanan kesehatan
 
+            1 = Memiliki akses atau perlindungan layanan kesehatan
+            (asuransi kesehatan, BPJS, fasilitas kesehatan, dll)
+
+            Contoh: \n
+            ✓ Memiliki BPJS → pilih 1 \n
+            ✓ Memiliki asuransi kesehatan → pilih 1 \n
+            ✗ Tidak memiliki perlindungan kesehatan → pilih 0""")
     with col2:
-        NoDocbcCost = st.selectbox("No Doctor Because of Cost", [0, 1])
+        NoDocbcCost = st.selectbox(
+            "Unable to Visit Doctor Due to Cost",
+            [0, 1],
+            help="""
+            0 = Tidak pernah menunda atau membatalkan
+            kunjungan ke dokter karena biaya
 
+            1 = Pernah tidak pergi ke dokter
+            karena biaya terlalu mahal
+
+            Contoh: \n
+            ✓ Ingin periksa tetapi biaya menjadi hambatan → pilih 1 \n
+            ✓ Tidak ada kendala biaya saat berobat → pilih 0""")
 
     with st.expander("👤 Demographic & Wellbeing", expanded=False):
         col1, col2 = st.columns(2)
 
     with col1:
-        MentHlth = st.slider("Mental Health Days", 0, 30, 0)
-        PhysHlth = st.slider("Physical Health Days", 0, 30, 0)
+        MentHlth = st.slider(
+            "Mental Health Days",
+            0, 30, 0,
+            help="""
+            Jumlah hari dalam 30 hari terakhir
+            ketika kondisi mental kurang baik. \n
+
+            Contoh: \n
+            - Stres \n
+            - Cemas \n
+            - Depresi \n
+            - Sulit tidur karena masalah psikologis \n
+            - Burnout \n
+
+            Nilai: \n
+            0  = Tidak ada gangguan mental \n
+            15 = Sekitar setengah bulan mengalami gangguan \n
+            30 = Hampir setiap hari mengalami gangguan""")
+        PhysHlth = st.slider(
+            "Physical Health Days", 
+            0, 30, 0,
+            help="""
+            Jumlah hari dalam 30 hari terakhir
+            ketika kondisi fisik kurang baik. \n
+
+            Contoh: \n
+            - Sakit demam \n
+            - Flu \n
+            - Nyeri tubuh \n
+            - Cedera \n
+            - Penyakit kronis yang mengganggu aktivitas \n
+
+            Nilai: \n
+            0  = Tidak ada hari sakit \n
+            15 = Sekitar setengah bulan merasa tidak sehat \n
+            30 = Seluruh bulan merasa kondisi fisik kurang baik""")
 
         sex_options = {
             "Female": 0,
