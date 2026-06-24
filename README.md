@@ -17,6 +17,19 @@ Berdasarkan hasil Exploratory Data Analysis (EDA) dan Feature Importance:
 - Individu yang aktif secara fisik menunjukkan persentase diabetes yang lebih rendah.
 - General Health dan High Cholesterol juga menjadi faktor penting dalam proses prediksi.
 
+## 🚀 Future Improvements
+
+Beberapa pengembangan yang dapat dilakukan pada project ini di masa mendatang:
+
+* Melakukan eksperimen dengan arsitektur ANN yang berbeda untuk meningkatkan performa model.
+* Menambahkan lebih banyak visualisasi interaktif agar pengguna dapat memahami faktor-faktor risiko diabetes dengan lebih mudah.
+* Menambahkan fitur riwayat prediksi sehingga hasil prediksi dapat disimpan dan dibandingkan.
+* Menambahkan rekomendasi kesehatan berdasarkan faktor risiko yang terdeteksi dari hasil prediksi.
+* Mengembangkan aplikasi agar dapat menerima input data dari file CSV untuk prediksi dalam jumlah banyak.
+* Mencoba algoritma Deep Learning lain dan membandingkan performanya dengan ANN yang digunakan saat ini.
+* Mengembangkan aplikasi ke tahap deployment yang lebih lanjut menggunakan teknologi backend dan cloud computing.
+
+
 ## 🚀 Live Demo
 
 [Try the App Here](https://miniproject2anndiabetes-jqcfkzztacdobkwlfix2wx.streamlit.app/)
@@ -153,10 +166,10 @@ ANN menunjukkan kemampuan yang baik dalam mendeteksi pasien diabetes dengan nila
 
 ## 🚀 How to Run
 
-git clone ...
-cd MiniProject2_ANN_Diabetes
-pip install -r requirements.txt
-streamlit run app.py
+* git clone ... 
+* cd MiniProject2_ANN_Diabetes 
+* pip install -r requirements.txt 
+* streamlit run app.py 
 
 ---
 
