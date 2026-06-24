@@ -1,5 +1,9 @@
 # 🩺 Diabetes Prediction App using Artificial Neural Network
 
+## 🚀 Live Demo
+
+[Try the App Here](https://miniproject2anndiabetes-jqcfkzztacdobkwlfix2wx.streamlit.app/)
+
 ## 📌 Project Overview
 
 Diabetes Prediction App adalah aplikasi berbasis Streamlit yang digunakan untuk memprediksi kemungkinan seseorang mengalami diabetes berdasarkan indikator kesehatan, gaya hidup, dan faktor demografis.
