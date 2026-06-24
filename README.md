@@ -84,20 +84,38 @@ ANN menunjukkan kemampuan yang baik dalam mendeteksi pasien diabetes dengan nila
 ### Home Page
 
 * Informasi diabetes
+![Home Page](assets/home_page(1).png)
+
 * Ringkasan model
+![Home Page](assets/home_page(2).png)
+
 * Informasi dataset
+![Home Page](assets/home_page(3).png)
 
 ### Visualization Page
 
 * Exploratory Data Analysis (EDA)
+![Visualization Page](assets/visualization_page(1).png)
+![Visualization Page](assets/visualization_page(2).png)
+
 * Feature Importance
+![Feature Importance](assets/feature_importance(1).png)
+![Feature Importance](assets/feature_importance(2).png)
+
 * Model Summary
+![Model Summary](assets/model_summary(1).png)
+![Model Summary](assets/model_summary(2).png)
+![Model Summary](assets/model_summary(3).png)
+
 
 ### Prediction Page
 
 * Interactive diabetes prediction
 * Probability output
 * User-friendly feature explanation
+![Prediction Page](assets/predict(1).png)
+![Prediction Page](assets/predict(2).png)
+![Prediction Page](assets/predict(3).png)
 
 ---
 
