@@ -1,5 +1,22 @@
 # 🩺 Diabetes Prediction App using Artificial Neural Network
 
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-orange)
+![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-red)
+![Accuracy](https://img.shields.io/badge/Accuracy-75.07%25-success)
+![Recall](https://img.shields.io/badge/Recall-85%25-brightgreen)
+
+## 🔍 Key Findings
+
+Berdasarkan hasil Exploratory Data Analysis (EDA) dan Feature Importance:
+
+- High Blood Pressure (HighBP) merupakan faktor paling berpengaruh terhadap prediksi diabetes dengan kontribusi sekitar 58.75%.
+- Individu dengan tekanan darah tinggi memiliki persentase diabetes yang jauh lebih tinggi dibandingkan individu tanpa tekanan darah tinggi.
+- Risiko diabetes cenderung meningkat seiring bertambahnya usia.
+- Kelompok diabetes memiliki distribusi BMI yang lebih tinggi dibandingkan kelompok non-diabetes.
+- Individu yang aktif secara fisik menunjukkan persentase diabetes yang lebih rendah.
+- General Health dan High Cholesterol juga menjadi faktor penting dalam proses prediksi.
+
 ## 🚀 Live Demo
 
 [Try the App Here](https://miniproject2anndiabetes-jqcfkzztacdobkwlfix2wx.streamlit.app/)
@@ -136,12 +153,9 @@ ANN menunjukkan kemampuan yang baik dalam mendeteksi pasien diabetes dengan nila
 
 ## 🚀 How to Run
 
-Install dependencies:
-
+git clone ...
+cd MiniProject2_ANN_Diabetes
 pip install -r requirements.txt
-
-Run application:
-
 streamlit run app.py
 
 ---
